@@ -1,3 +1,7 @@
+This repository contains work that has been done to improve the performance of the open-source PageRank algorithm which can be found here: https://github.com/louridas/pagerank. Below is the original README.
+
+***
+
 # An Open Source PageRank Implementation
 
 This project provides an open source PageRank implementation. The

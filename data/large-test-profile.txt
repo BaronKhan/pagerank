@@ -1,0 +1,217 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 86.95      8.15     8.15                             Table::pagerank()
+  7.21      8.82     0.68  4999999     0.00     0.00  Table::add_arc(unsigned long, unsigned long)
+  1.92      9.00     0.18  4999999     0.00     0.00  std::vector<std::vector<unsigned long, std::allocator<unsigned long> >, std::allocator<std::vector<unsigned long, std::allocator<unsigned long> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<unsigned long, std::allocator<unsigned long> >*, std::vector<std::vector<unsigned long, std::allocator<unsigned long> >, std::allocator<std::vector<unsigned long, std::allocator<unsigned long> > > > >, unsigned long, std::vector<unsigned long, std::allocator<unsigned long> > const&)
+  1.49      9.14     0.14                             Table::read_file(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+  1.17      9.25     0.11                             Table::get_node_name[abi:cxx11](unsigned long)
+  0.53      9.30     0.05  4999999     0.00     0.00  std::vector<unsigned long, std::allocator<unsigned long> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long, unsigned long const&)
+  0.43      9.34     0.04  9999998     0.00     0.00  Table::trim(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&)
+  0.21      9.36     0.02  3644799     0.00     0.00  std::vector<unsigned long, std::allocator<unsigned long> >::_M_insert_aux(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long const&)
+  0.11      9.37     0.01        1    10.00    10.00  std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned long, double const&)
+  0.00      9.37     0.00        2     0.00     0.00  std::_Rb_tree<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long>, std::_Select1st<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> > >::_M_erase(std::_Rb_tree_node<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> >*)
+  0.00      9.37     0.00        1     0.00     0.00  _GLOBAL__sub_I__Z5errorPKcS0_
+  0.00      9.37     0.00        1     0.00     0.00  _GLOBAL__sub_I__ZN5Table5resetEv
+  0.00      9.37     0.00        1     0.00     0.00  Table::reset()
+  0.00      9.37     0.00        1     0.00     0.00  std::vector<std::vector<unsigned long, std::allocator<unsigned long> >, std::allocator<std::vector<unsigned long, std::allocator<unsigned long> > > >::reserve(unsigned long)
+  0.00      9.37     0.00        1     0.00     0.00  std::vector<double, std::allocator<double> >::operator=(std::vector<double, std::allocator<double> > const&)
+  0.00      9.37     0.00        1     0.00     0.00  std::_Rb_tree<unsigned long, std::pair<unsigned long const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::_Select1st<std::pair<unsigned long const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::less<unsigned long>, std::allocator<std::pair<unsigned long const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >::_M_erase(std::_Rb_tree_node<std::pair<unsigned long const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >*)
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2015 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 2 byte(s) for 0.11% of 9.37 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     87.0    8.15    0.01                 Table::pagerank() [1]
+                0.01    0.00       1/1           std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned long, double const&) [9]
+                0.00    0.00       1/1           std::vector<double, std::allocator<double> >::operator=(std::vector<double, std::allocator<double> > const&) [22]
+-----------------------------------------------
+                                                 <spontaneous>
+[2]     11.8    0.14    0.97                 Table::read_file(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [2]
+                0.68    0.25 4999999/4999999     Table::add_arc(unsigned long, unsigned long) [3]
+                0.04    0.00 9999998/9999998     Table::trim(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [7]
+                0.00    0.00       1/1           Table::reset() [20]
+                0.00    0.00       1/2           std::_Rb_tree<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long>, std::_Select1st<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> > >::_M_erase(std::_Rb_tree_node<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> >*) [17]
+                0.00    0.00       1/1           std::vector<std::vector<unsigned long, std::allocator<unsigned long> >, std::allocator<std::vector<unsigned long, std::allocator<unsigned long> > > >::reserve(unsigned long) [21]
+-----------------------------------------------
+                0.68    0.25 4999999/4999999     Table::read_file(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [2]
+[3]      9.9    0.68    0.25 4999999         Table::add_arc(unsigned long, unsigned long) [3]
+                0.18    0.00 4999999/4999999     std::vector<std::vector<unsigned long, std::allocator<unsigned long> >, std::allocator<std::vector<unsigned long, std::allocator<unsigned long> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<unsigned long, std::allocator<unsigned long> >*, std::vector<std::vector<unsigned long, std::allocator<unsigned long> >, std::allocator<std::vector<unsigned long, std::allocator<unsigned long> > > > >, unsigned long, std::vector<unsigned long, std::allocator<unsigned long> > const&) [4]
+                0.05    0.00 4999999/4999999     std::vector<unsigned long, std::allocator<unsigned long> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long, unsigned long const&) [6]
+                0.02    0.00 3644799/3644799     std::vector<unsigned long, std::allocator<unsigned long> >::_M_insert_aux(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long const&) [8]
+-----------------------------------------------
+                0.18    0.00 4999999/4999999     Table::add_arc(unsigned long, unsigned long) [3]
+[4]      1.9    0.18    0.00 4999999         std::vector<std::vector<unsigned long, std::allocator<unsigned long> >, std::allocator<std::vector<unsigned long, std::allocator<unsigned long> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<unsigned long, std::allocator<unsigned long> >*, std::vector<std::vector<unsigned long, std::allocator<unsigned long> >, std::allocator<std::vector<unsigned long, std::allocator<unsigned long> > > > >, unsigned long, std::vector<unsigned long, std::allocator<unsigned long> > const&) [4]
+-----------------------------------------------
+                                                 <spontaneous>
+[5]      1.2    0.11    0.00                 Table::get_node_name[abi:cxx11](unsigned long) [5]
+-----------------------------------------------
+                0.05    0.00 4999999/4999999     Table::add_arc(unsigned long, unsigned long) [3]
+[6]      0.5    0.05    0.00 4999999         std::vector<unsigned long, std::allocator<unsigned long> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long, unsigned long const&) [6]
+-----------------------------------------------
+                0.04    0.00 9999998/9999998     Table::read_file(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [2]
+[7]      0.4    0.04    0.00 9999998         Table::trim(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [7]
+-----------------------------------------------
+                0.02    0.00 3644799/3644799     Table::add_arc(unsigned long, unsigned long) [3]
+[8]      0.2    0.02    0.00 3644799         std::vector<unsigned long, std::allocator<unsigned long> >::_M_insert_aux(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long const&) [8]
+-----------------------------------------------
+                0.01    0.00       1/1           Table::pagerank() [1]
+[9]      0.1    0.01    0.00       1         std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned long, double const&) [9]
+-----------------------------------------------
+                0.00    0.00       1/2           Table::~Table() [52]
+                0.00    0.00       1/2           Table::read_file(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [2]
+[17]     0.0    0.00    0.00       2         std::_Rb_tree<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long>, std::_Select1st<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> > >::_M_erase(std::_Rb_tree_node<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> >*) [17]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [61]
+[18]     0.0    0.00    0.00       1         _GLOBAL__sub_I__Z5errorPKcS0_ [18]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [61]
+[19]     0.0    0.00    0.00       1         _GLOBAL__sub_I__ZN5Table5resetEv [19]
+-----------------------------------------------
+                0.00    0.00       1/1           Table::read_file(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [2]
+[20]     0.0    0.00    0.00       1         Table::reset() [20]
+-----------------------------------------------
+                0.00    0.00       1/1           Table::read_file(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [2]
+[21]     0.0    0.00    0.00       1         std::vector<std::vector<unsigned long, std::allocator<unsigned long> >, std::allocator<std::vector<unsigned long, std::allocator<unsigned long> > > >::reserve(unsigned long) [21]
+-----------------------------------------------
+                0.00    0.00       1/1           Table::pagerank() [1]
+[22]     0.0    0.00    0.00       1         std::vector<double, std::allocator<double> >::operator=(std::vector<double, std::allocator<double> > const&) [22]
+-----------------------------------------------
+                0.00    0.00       1/1           Table::~Table() [52]
+[23]     0.0    0.00    0.00       1         std::_Rb_tree<unsigned long, std::pair<unsigned long const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::_Select1st<std::pair<unsigned long const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::less<unsigned long>, std::allocator<std::pair<unsigned long const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >::_M_erase(std::_Rb_tree_node<std::pair<unsigned long const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >*) [23]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2015 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+  [18] _GLOBAL__sub_I__Z5errorPKcS0_ [1] Table::pagerank() [8] std::vector<unsigned long, std::allocator<unsigned long> >::_M_insert_aux(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long const&)
+  [19] _GLOBAL__sub_I__ZN5Table5resetEv [2] Table::read_file(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [6] std::vector<unsigned long, std::allocator<unsigned long> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long, unsigned long const&)
+   [5] Table::get_node_name[abi:cxx11](unsigned long) [4] std::vector<std::vector<unsigned long, std::allocator<unsigned long> >, std::allocator<std::vector<unsigned long, std::allocator<unsigned long> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<unsigned long, std::allocator<unsigned long> >*, std::vector<std::vector<unsigned long, std::allocator<unsigned long> >, std::allocator<std::vector<unsigned long, std::allocator<unsigned long> > > > >, unsigned long, std::vector<unsigned long, std::allocator<unsigned long> > const&) [17] std::_Rb_tree<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long>, std::_Select1st<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> > >::_M_erase(std::_Rb_tree_node<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> >*)
+   [7] Table::trim(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [21] std::vector<std::vector<unsigned long, std::allocator<unsigned long> >, std::allocator<std::vector<unsigned long, std::allocator<unsigned long> > > >::reserve(unsigned long) [23] std::_Rb_tree<unsigned long, std::pair<unsigned long const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::_Select1st<std::pair<unsigned long const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::less<unsigned long>, std::allocator<std::pair<unsigned long const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >::_M_erase(std::_Rb_tree_node<std::pair<unsigned long const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >*)
+  [20] Table::reset()          [9] std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned long, double const&)
+   [3] Table::add_arc(unsigned long, unsigned long) [22] std::vector<double, std::allocator<double> >::operator=(std::vector<double, std::allocator<double> > const&)

@@ -1,4 +1,4 @@
-CFLAGS=-O3
+CFLAGS=-O3 -fopenmp
 
 
 pagerank_test: pagerank_test.cpp table.cpp pagerank.cpp table.h

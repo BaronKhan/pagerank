@@ -318,6 +318,7 @@ void Table::pagerank() {
         sum_pr = 0;
         dangling_pr = 0;
         
+        #pragma omp simd reduction(+:dangling_pr,sum_pr)
         for (size_t k = 0; k < pr.size(); k++) {
             double cpr = pr[k];
             sum_pr += cpr;

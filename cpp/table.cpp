@@ -318,7 +318,7 @@ void Table::pagerank() {
         sum_pr = 0;
         dangling_pr = 0;
         
-        // #pragma omp simd reduction(+:dangling_pr,sum_pr)
+        #pragma omp simd reduction(+:dangling_pr,sum_pr)
         for (size_t k = 0; k < pr.size(); k++) {
             double cpr = pr[k];
             sum_pr += cpr;
@@ -331,6 +331,7 @@ void Table::pagerank() {
             old_pr = pr;
         } else {
             /* Normalize so that we start with sum equal to one */
+            #pragma omp simd
             for (i = 0; i < pr.size(); i++) {
                 old_pr[i] = pr[i] / sum_pr;
             }
@@ -350,11 +351,11 @@ void Table::pagerank() {
 
         /* The difference to be checked for convergence */
         diff = 0;
-        // #pragma omp simd reduction(+:diff)
+        #pragma omp simd reduction(+:diff)
         for (i = 0; i < num_rows; i++) {
             /* The corresponding element of the H multiplication */
             double h = 0.0;
-            // #pragma omp parallel_for reduction(+:h)
+            #pragma omp parallel_for reduction(+:h) private(ci)
             for (ci = rows[i].begin(); ci != rows[i].end(); ci++) {
                 /* The current element of the H vector */
                 double h_v = (num_outgoing[*ci])

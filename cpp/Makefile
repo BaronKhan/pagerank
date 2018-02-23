@@ -1,10 +1,10 @@
-CFLAGS=-O3
-
+CFLAGS=-O3 -std=c++11
+LDFLAGS=-ltbb
 
 pagerank_test: pagerank_test.cpp table.cpp pagerank.cpp table.h
-	g++ $(CFLAGS) -o pagerank_test pagerank_test.cpp table.cpp
+	g++ $(CFLAGS) -o pagerank_test pagerank_test.cpp table.cpp $(LDFLAGS)
 pagerank: pagerank.cpp table.cpp table.h
-	g++ $(CFLAGS) -Wall -o pagerank pagerank.cpp table.cpp 
+	g++ $(CFLAGS) -Wall -o pagerank pagerank.cpp table.cpp $(LDFLAGS)
 
 all-tests: all-tests.txt pagerank_test
 	./pagerank_test all-tests.txt

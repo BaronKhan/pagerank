@@ -45,6 +45,11 @@
 
 #include "table.h"
 
+#include "tbb/parallel_for.h"
+#include "tbb/parallel_reduce.h"
+#include "tbb/blocked_range.h"
+using namespace tbb;
+
 
 void Table::reset() {
     num_outgoing.clear();
@@ -301,18 +306,101 @@ bool Table::add_arc(size_t from, size_t to) {
 
 //=====================================
 
+// finds the sum of 2 vectors
+
+struct SumTwoVec {
+
+    double value;
+    double value2;
+
+    double* myPr;
+    size_t* mynum_outgoing;
+
+    SumTwoVec(double* pr, size_t* num_outgoing) : value(0) ,value2(0) {myPr = pr; mynum_outgoing = num_outgoing; }
+
+    SumTwoVec( SumTwoVec& s, split )
+    {
+        value = 0;
+        value2 = 0;
+        myPr = s.myPr;
+        mynum_outgoing = s.mynum_outgoing;
+    }
+
+    void operator()( const blocked_range<int>& r ) 
+    {
+	// do NOT initialize to 0.
+        double temp = value;
+        double temp2 = value2;
+ 
+	int len = r.end();
+        for( int i=r.begin(); i!=len ; ++i )
+        {
+            temp += myPr[i];
+            
+            
+            temp2 += (mynum_outgoing[i] == 0) * myPr[i];
+            
+        }
+
+        value = temp;
+        value2 = temp2;
+    }
+
+    void join( SumTwoVec& rhs ) 
+    {
+        value += rhs.value;
+        value2 += rhs.value2;
+    }
+};
+
+
+
+// finds the sum of 1 vexctor
+struct SumOneVec {
+
+    double value;
+    double* myPr;
+
+    SumOneVec(double* pr) : value(0) {myPr = pr;}
+
+    SumOneVec( SumOneVec& s, split )
+    {
+        value = 0;
+        myPr = s.myPr;
+    }
+
+    void operator()( const blocked_range<int>& r ) 
+    {
+	// do NOT initialize to 0.
+        double temp = value;
+        for( int i=r.begin(),len = r.end(); i!=len ; ++i )
+        {
+            temp += myPr[i];         
+        }
+
+        value = temp;
+   
+    }
+
+    void join( SumOneVec& rhs ) 
+    {
+        value += rhs.value;
+    }
+};
+
+
+
+
 
 
 void Table::pagerank() {
 
-    vector<size_t>::iterator ci; // current incoming
-    vector<size_t>::iterator cend; // current incoming
-    double diff = 1;
+   
     size_t i;
     double sum_pr;       // sum of current pagerank vector elements
     double dangling_pr; // sum of current pagerank vector elements for dangling
     			// nodes
-   
+    double diff = 1;
 
     unsigned long num_iterations = 0;
     vector<double> old_pr;
@@ -338,11 +426,13 @@ void Table::pagerank() {
 
     while (diff > convergence && num_iterations < max_iterations) {
      
+        
+	// ===== normalization ======
+
+	/*
         sum_pr = 0;
         dangling_pr = 0;
-     	double cpr;
-
-	// ===== normalization ======
+        double cpr;
         for (size_t k = 0; k < num_cols ; ++k)
         {
             cpr = pr[k];
@@ -353,7 +443,13 @@ void Table::pagerank() {
                 dangling_pr += cpr;
             }
         }
-	
+        */
+      
+       SumTwoVec total( &pr[0] , &num_outgoing[0]);
+       tbb::parallel_reduce( tbb::blocked_range<int>( 0, num_rows ), total );
+       sum_pr = total.value;
+       dangling_pr = total.value2;
+      
 	
         if (num_iterations == 0) {
             old_pr = pr;
@@ -362,6 +458,7 @@ void Table::pagerank() {
             for (i = 0; i < num_cols; ++i) {
                 old_pr[i] = pr[i] / sum_pr;
             }
+
         }
 
         /*
@@ -380,18 +477,21 @@ void Table::pagerank() {
         sum_oneAv_oneIv = one_Av + one_Iv;
 	
         /* The difference to be checked for convergence */
-        diff = 0;
-	double h, h_v;
+       
+       
+       std::vector<double> diff_vec(num_rows);
+	
+	
+        //for (i = 0; i < num_rows; ++i) {
+        tbb::parallel_for(size_t(0), num_rows, [&](size_t i){
 
-        for (i = 0; i < num_rows; ++i) 
-        {
             /* The corresponding element of the H multiplication */
-            h = 0.0;
+            double h = 0.0;
   
-            for (ci = rows[i].begin(), cend = rows[i].end() ; ci != cend; ++ci) 
+            for (vector<size_t>::iterator ci = rows[i].begin(), cend = rows[i].end() ; ci != cend; ++ci) 
             {
                 /* The current element of the H vector */
-                 h_v = 1.0 / (num_outgoing[*ci]);
+                double h_v = 1.0 / (num_outgoing[*ci]);
 
                 if (num_iterations == 0 && trace) {cout << "h[" << i << "," << *ci << "]=" << h_v << endl;}
 
@@ -399,10 +499,24 @@ void Table::pagerank() {
             }
 
             pr[i] = alpha*h + sum_oneAv_oneIv;
-            diff += fabs(pr[i] - old_pr[i]);
 
+            //diff += fabs(pr[i] - old_pr[i]);
+            diff_vec[i] = fabs(pr[i] - old_pr[i]);
+             
+        } );
+
+        /*
+        diff = 0;
+        for(int k = 0 ; k < diff_vec.size() ; ++k)
+        {
+            diff += diff_vec[k];
         }
-
+        */
+	
+        SumOneVec total2( &diff_vec[0]);
+        tbb::parallel_reduce( tbb::blocked_range<int>( 0, num_rows ), total2 );
+        diff = total2.value;
+         
         ++num_iterations;
 
         if (trace) { cout << num_iterations << ": "; print_pagerank();}

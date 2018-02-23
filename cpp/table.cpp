@@ -487,31 +487,48 @@ void Table::pagerank() {
 
             /* The corresponding element of the H multiplication */
             double h = 0.0;
-  
-            for (vector<size_t>::iterator ci = rows[i].begin(), cend = rows[i].end() ; ci != cend; ++ci) 
-            {
+            std::vector<double> h_vec(rows[i].size());
+            
+            //for (int ci = 0, cend = rows[i].size() ; ci != cend; ++ci){ 
+            tbb::parallel_for (size_t(0), rows[i].size() ,[&](size_t ci) { 
+            
+	        int nodeIndex = rows[i][ci];
+
                 /* The current element of the H vector */
-                double h_v = 1.0 / (num_outgoing[*ci]);
+                double h_v = 1.0 / (num_outgoing[nodeIndex]);
 
-                if (num_iterations == 0 && trace) {cout << "h[" << i << "," << *ci << "]=" << h_v << endl;}
+                if (num_iterations == 0 && trace) {cout << "h[" << i << "," << nodeIndex << "]=" << h_v << endl;}
 
-                h += h_v * old_pr[*ci];
+                h_vec[ci] += h_v * old_pr[nodeIndex];
+            });
+
+            
+            /*
+            for(int k=0 ; k < h_vec.size()  ; ++k)
+            {
+		h += h_vec[k];
             }
+            */
+            
+            SumOneVec total1( &h_vec[0]);
+            tbb::parallel_reduce( tbb::blocked_range<int>( 0, h_vec.size() ), total1 );
+            h = total1.value;
 
+          
             pr[i] = alpha*h + sum_oneAv_oneIv;
 
             //diff += fabs(pr[i] - old_pr[i]);
             diff_vec[i] = fabs(pr[i] - old_pr[i]);
-             
+              
         } );
 
-        /*
+        
         diff = 0;
         for(int k = 0 ; k < diff_vec.size() ; ++k)
         {
             diff += diff_vec[k];
         }
-        */
+        
 	
         SumOneVec total2( &diff_vec[0]);
         tbb::parallel_reduce( tbb::blocked_range<int>( 0, num_rows ), total2 );

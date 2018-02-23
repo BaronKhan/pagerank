@@ -45,6 +45,7 @@
 
 #include "table.h"
 
+
 void Table::reset() {
     num_outgoing.clear();
     rows.clear();
@@ -147,6 +148,11 @@ void Table::set_delim(string d) {
     delim = d;
 }
 
+
+
+
+
+
 /*
  * From a blog post at: http://bit.ly/1QQ3hv
  */
@@ -219,18 +225,20 @@ int Table::read_file(const string &filename) {
         }
 
         linenum++;
-        if (linenum && ((linenum % 100000) == 0)) {
+
+	       
+	if (linenum && ((linenum % 100000) == 0)) {
             cerr << "read " << linenum << " lines, "
                  << rows.size() << " vertices" << endl;
         }
+        
 
         from.clear();
         to.clear();
         line.clear();
     }
 
-    cerr << "read " << linenum << " lines, "
-         << rows.size() << " vertices" << endl;
+    cerr << "read " << linenum << " lines, " << rows.size() << " vertices" << endl;
 
     nodes_to_idx.clear();
 
@@ -288,17 +296,27 @@ bool Table::add_arc(size_t from, size_t to) {
     return ret;
 }
 
+
+
+
+//=====================================
+
+
+
 void Table::pagerank() {
 
     vector<size_t>::iterator ci; // current incoming
+    vector<size_t>::iterator cend; // current incoming
     double diff = 1;
     size_t i;
-    double sum_pr; // sum of current pagerank vector elements
+    double sum_pr;       // sum of current pagerank vector elements
     double dangling_pr; // sum of current pagerank vector elements for dangling
     			// nodes
+   
+
     unsigned long num_iterations = 0;
     vector<double> old_pr;
-
+	
     size_t num_rows = rows.size();
     
     if (num_rows == 0) {
@@ -312,25 +330,36 @@ void Table::pagerank() {
     if (trace) {
         print_pagerank();
     }
-    
-    while (diff > convergence && num_iterations < max_iterations) {
 
+    double one_Av,one_Iv, sum_oneAv_oneIv;
+    double num_cols = num_rows; // this is just for better understanding...
+    double oneminusalpha_factor = (1 - alpha) / num_rows ;
+    double alpha_factor = alpha/ num_rows ;
+
+    while (diff > convergence && num_iterations < max_iterations) {
+     
         sum_pr = 0;
         dangling_pr = 0;
-        
-        for (size_t k = 0; k < pr.size(); k++) {
-            double cpr = pr[k];
+     	double cpr;
+
+	// ===== normalization ======
+        for (size_t k = 0; k < num_cols ; ++k)
+        {
+            cpr = pr[k];
             sum_pr += cpr;
-            if (num_outgoing[k] == 0) {
+
+            if (num_outgoing[k] == 0)
+            {
                 dangling_pr += cpr;
             }
         }
-
+	
+	
         if (num_iterations == 0) {
             old_pr = pr;
         } else {
             /* Normalize so that we start with sum equal to one */
-            for (i = 0; i < pr.size(); i++) {
+            for (i = 0; i < num_cols; ++i) {
                 old_pr[i] = pr[i] / sum_pr;
             }
         }
@@ -341,36 +370,43 @@ void Table::pagerank() {
          */
         sum_pr = 1;
         
+       
+
         /* An element of the A x I vector; all elements are identical */
-        double one_Av = alpha * dangling_pr / num_rows;
+        one_Av = alpha_factor * dangling_pr;
 
         /* An element of the 1 x I vector; all elements are identical */
-        double one_Iv = (1 - alpha) * sum_pr / num_rows;
-
+        one_Iv = oneminusalpha_factor * sum_pr ;
+        sum_oneAv_oneIv = one_Av + one_Iv;
+	
         /* The difference to be checked for convergence */
         diff = 0;
-        for (i = 0; i < num_rows; i++) {
+	double h, h_v;
+
+        for (i = 0; i < num_rows; ++i) 
+        {
             /* The corresponding element of the H multiplication */
-            double h = 0.0;
-            for (ci = rows[i].begin(); ci != rows[i].end(); ci++) {
+            h = 0.0;
+  
+            for (ci = rows[i].begin(), cend = rows[i].end() ; ci != cend; ++ci) 
+            {
                 /* The current element of the H vector */
-                double h_v = (num_outgoing[*ci])
-                    ? 1.0 / num_outgoing[*ci]
-                    : 0.0;
-                if (num_iterations == 0 && trace) {
-                    cout << "h[" << i << "," << *ci << "]=" << h_v << endl;
-                }
+                 h_v = 1.0 / (num_outgoing[*ci]);
+
+                if (num_iterations == 0 && trace) {cout << "h[" << i << "," << *ci << "]=" << h_v << endl;}
+
                 h += h_v * old_pr[*ci];
             }
-            h *= alpha;
-            pr[i] = h + one_Av + one_Iv;
+
+            pr[i] = alpha*h + sum_oneAv_oneIv;
             diff += fabs(pr[i] - old_pr[i]);
+
         }
-        num_iterations++;
-        if (trace) {
-            cout << num_iterations << ": ";
-            print_pagerank();
-        }
+
+        ++num_iterations;
+
+        if (trace) { cout << num_iterations << ": "; print_pagerank();}
+
     }
     
 }

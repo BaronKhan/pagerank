@@ -320,7 +320,7 @@ void Table::pagerank() {
         sum_pr = 0;
         dangling_pr = 0;
         
-        // #pragma omp simd reduction(+:dangling_pr,sum_pr)
+        #pragma omp parallel for reduction(+:dangling_pr,sum_pr)
         for (size_t k = 0; k < pr.size(); k++) {
             double cpr = pr[k];
             sum_pr += cpr;
@@ -358,7 +358,7 @@ void Table::pagerank() {
             /* The corresponding element of the H multiplication */
             double h = 0.0;
             vector<size_t>::iterator ci; // current incoming
-            // #pragma omp parallel_for reduction(+:h)
+            // #pragma omp parallel for reduction(+:h)
             for (ci = rows[i].begin(); ci != rows[i].end(); ci++) {
                 /* The current element of the H vector */
                 double h_v = (num_outgoing[*ci])

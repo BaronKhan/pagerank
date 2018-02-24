@@ -42,6 +42,7 @@
 #include <string>
 #include <cstring>
 #include <limits>
+#include <omp.h>
 
 #include "table.h"
 
@@ -290,7 +291,6 @@ bool Table::add_arc(size_t from, size_t to) {
 
 void Table::pagerank() {
 
-    vector<size_t>::iterator ci; // current incoming
     double diff = 1;
     size_t i;
     double sum_pr; // sum of current pagerank vector elements
@@ -312,13 +312,15 @@ void Table::pagerank() {
     if (trace) {
         print_pagerank();
     }
+
+    omp_set_num_threads(omp_get_max_threads());
     
     while (diff > convergence && num_iterations < max_iterations) {
 
         sum_pr = 0;
         dangling_pr = 0;
         
-        #pragma omp simd reduction(+:dangling_pr,sum_pr)
+        // #pragma omp simd reduction(+:dangling_pr,sum_pr)
         for (size_t k = 0; k < pr.size(); k++) {
             double cpr = pr[k];
             sum_pr += cpr;
@@ -331,7 +333,7 @@ void Table::pagerank() {
             old_pr = pr;
         } else {
             /* Normalize so that we start with sum equal to one */
-            #pragma omp simd
+            // #pragma omp simd
             for (i = 0; i < pr.size(); i++) {
                 old_pr[i] = pr[i] / sum_pr;
             }
@@ -351,11 +353,12 @@ void Table::pagerank() {
 
         /* The difference to be checked for convergence */
         diff = 0;
-        #pragma omp simd reduction(+:diff)
+        #pragma omp parallel for reduction(+:diff)
         for (i = 0; i < num_rows; i++) {
             /* The corresponding element of the H multiplication */
             double h = 0.0;
-            #pragma omp parallel_for reduction(+:h) private(ci)
+            vector<size_t>::iterator ci; // current incoming
+            // #pragma omp parallel_for reduction(+:h)
             for (ci = rows[i].begin(); ci != rows[i].end(); ci++) {
                 /* The current element of the H vector */
                 double h_v = (num_outgoing[*ci])

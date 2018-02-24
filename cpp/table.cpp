@@ -333,7 +333,7 @@ void Table::pagerank() {
             old_pr = pr;
         } else {
             /* Normalize so that we start with sum equal to one */
-            // #pragma omp simd
+            #pragma omp simd
             for (i = 0; i < pr.size(); i++) {
                 old_pr[i] = pr[i] / sum_pr;
             }

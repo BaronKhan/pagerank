@@ -1,5 +1,7 @@
-CFLAGS=-O3 -std=c++11
-LDFLAGS=-ltbb
+# If using openCL on edge04, make sure to run the following command -
+# ln -s /usr/lib/x86_64-linux-gnu/libOpenCL.so.1 libOpenCL.so ;
+CFLAGS=-O3 -std=c++11 -I ../include -I ../opencl_sdk/include
+LDFLAGS=-ltbb -L /usr/lib/x86_64-linux-gnu -L . -l OpenCL
 
 pagerank_test: pagerank_test.cpp table.cpp pagerank.cpp table.h
 	g++ $(CFLAGS) -o pagerank_test pagerank_test.cpp table.cpp $(LDFLAGS)

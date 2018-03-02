@@ -6,6 +6,8 @@ The goal was to improve the performance of the PageRank algorithm by implementin
 - [TBB](https://github.com/BaronKhan/pagerank/commit/84b7f2a33ade8341d55d275f3a037bed6bd4d926)
 - [OpenCL](https://github.com/BaronKhan/pagerank/commit/7a96308ea7030bee3f92ea6d5ee17a84f111ecb4)
 
+Please see the final report [here](https://github.com/BaronKhan/pagerank/blob/master/Report.pdf).
+
 # Contributors
 
 - [malharjajoo](https://github.com/malharjajoo)

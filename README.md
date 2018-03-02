@@ -1,4 +1,18 @@
-This repository contains work that has been done to improve the performance of the open-source PageRank algorithm which can be found here: https://github.com/louridas/pagerank. Below is the original README.
+This repository contains work that has been done to improve the performance of the open-source PageRank algorithm which can be found here: https://github.com/louridas/pagerank.
+
+The goal was to improve the performance of the PageRank algorithm by implementing a parallelized version. Various implementations were explored. Please see the following branches and commits for specific implementations:
+
+- [OpenMP](https://github.com/BaronKhan/pagerank/tree/openmp)
+- [TBB](https://github.com/BaronKhan/pagerank/commit/84b7f2a33ade8341d55d275f3a037bed6bd4d926)
+- [OpenCL](https://github.com/BaronKhan/pagerank/commit/7a96308ea7030bee3f92ea6d5ee17a84f111ecb4)
+
+# Contributors
+
+- [malharjajoo](https://github.com/malharjajoo)
+- [BaronKhan](https://github.com/BaronKhan)
+- [nick96st](https://github.com/nick96st)
+
+The following is the original README from https://github.com/louridas/pagerank.
 
 ***
 
